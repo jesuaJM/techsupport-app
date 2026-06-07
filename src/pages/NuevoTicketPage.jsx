@@ -44,7 +44,7 @@ export default function NuevoTicketPage() {
     try {
       const nuevoTicket = await ticketService.create({
         ...formState,
-        cliente: user?.email || "cliente@demo.com",
+        cliente: user?.email,
         estado: "abierto",
         tecnico: null,
       });

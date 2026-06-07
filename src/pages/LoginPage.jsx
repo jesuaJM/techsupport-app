@@ -2,21 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-// Usuarios de demostración
-const USUARIOS_DEMO = [
-  { email: "cliente@demo.com", password: "123456", role: "cliente", nombre: "Carlos Mendoza" },
-  { email: "tecnico@demo.com", password: "123456", role: "tecnico", nombre: "Laura Gómez" },
-  { email: "admin@demo.com", password: "123456", role: "admin", nombre: "Diego Ramírez" },
+// Usuarios del sistema
+const USUARIOS = [
+  { email: "cliente@demo.com",  password: "123456", role: "cliente", nombre: "Carlos Mendoza" },
+  { email: "tecnico@demo.com",  password: "123456", role: "tecnico", nombre: "Laura Gómez" },
+  { email: "admin@demo.com",    password: "123456", role: "admin",   nombre: "Diego Ramírez" },
 ];
 
 export default function LoginPage() {
-  // useState para manejar el formulario
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [error, setError]       = useState(null);
+  const [loading, setLoading]   = useState(false);
 
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const { login }  = useAuth();
+  const navigate   = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -28,10 +27,9 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    // Simula latencia de red
     await new Promise((r) => setTimeout(r, 600));
 
-    const usuario = USUARIOS_DEMO.find(
+    const usuario = USUARIOS.find(
       (u) => u.email === formData.email && u.password === formData.password
     );
 
@@ -87,22 +85,6 @@ export default function LoginPage() {
             {loading ? "Verificando..." : "Ingresar al sistema"}
           </button>
         </form>
-
-        <div className="demo-hints">
-          <p className="demo-title">Cuentas de demostración</p>
-          <div className="demo-accounts">
-            {USUARIOS_DEMO.map((u) => (
-              <button
-                key={u.email}
-                className="demo-btn"
-                onClick={() => setFormData({ email: u.email, password: u.password })}
-              >
-                <span className={`role-badge role-${u.role}`}>{u.role}</span>
-                {u.nombre}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

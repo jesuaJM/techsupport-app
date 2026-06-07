@@ -4,19 +4,19 @@ import { useAuth } from "../context/AuthContext";
 import { useTickets } from "../context/TicketsContext";
 import { ticketService } from "../services/ticketService";
 
-const ESTADOS = ["abierto", "en_proceso", "resuelto", "cerrado"];
-const ESTADO_LABELS = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto", cerrado: "Cerrado" };
+const ESTADOS      = ["abierto", "en_proceso", "resuelto", "cerrado"];
+const ESTADO_LABELS   = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto", cerrado: "Cerrado" };
 const PRIORIDAD_LABELS = { baja: "Baja", media: "Media", alta: "Alta", critica: "Crítica" };
 
 export default function DetalleTicketPage() {
-  const { id } = useParams();
-  const [ticket, setTicket] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { id }                          = useParams();
+  const [ticket, setTicket]             = useState(null);
+  const [loading, setLoading]           = useState(true);
   const [actualizando, setActualizando] = useState(false);
 
-  const { role } = useAuth();
-  const { dispatch } = useTickets();
-  const navigate = useNavigate();
+  const { user, role, logout } = useAuth();
+  const { dispatch }           = useTickets();
+  const navigate               = useNavigate();
 
   // useEffect para cargar el detalle del ticket por ID
   useEffect(() => {
@@ -52,9 +52,19 @@ export default function DetalleTicketPage() {
           <span>TechSupport</span>
         </div>
         <nav className="sidebar-nav">
-          <Link to="/dashboard" className="nav-item">📋 Dashboard</Link>
+          <Link to="/dashboard"    className="nav-item">📋 Dashboard</Link>
           <Link to="/tickets/nuevo" className="nav-item">➕ Nuevo Ticket</Link>
         </nav>
+        <div className="sidebar-footer">
+          <div className="user-info">
+            <div className={`user-avatar role-${role}`}>{user?.nombre?.[0]}</div>
+            <div>
+              <p className="user-name">{user?.nombre}</p>
+              <p className="user-role">{role}</p>
+            </div>
+          </div>
+          <button className="btn-logout" onClick={logout}>Salir</button>
+        </div>
       </aside>
 
       <main className="main-content">
