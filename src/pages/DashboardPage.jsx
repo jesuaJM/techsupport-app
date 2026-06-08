@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTickets } from "../context/TicketsContext";
 import { ticketService } from "../services/ticketService";
+import Sidebar from "../components/Sidebar";
+import ClienteDashboard from "./ClienteDashboard";
 
 const ESTADO_LABELS = {
   abierto: "Abierto",
@@ -19,7 +21,7 @@ const PRIORIDAD_LABELS = {
 };
 
 export default function DashboardPage() {
-  const { user, role, logout } = useAuth();
+  const { user, role } = useAuth();
   const { tickets, loading, error, filtro, dispatch } = useTickets();
   const [stats, setStats] = useState(null);
 
@@ -49,31 +51,11 @@ export default function DashboardPage() {
   const ticketsFiltrados =
     filtro === "todos" ? tickets : tickets.filter((t) => t.estado === filtro);
 
+  if (role === 'cliente') return <ClienteDashboard />;
+
   return (
     <div className="layout">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <span className="logo-icon-sm">⚙</span>
-          <span>TechSupport</span>
-        </div>
-        <nav className="sidebar-nav">
-          <Link to="/dashboard" className="nav-item active">📋 Dashboard</Link>
-          <Link to="/tickets/nuevo" className="nav-item">➕ Nuevo Ticket</Link>
-          {(role === "tecnico" || role === "admin") && (
-            <Link to="/tickets" className="nav-item">🔧 Gestión</Link>
-          )}
-        </nav>
-        <div className="sidebar-footer">
-          <div className="user-info">
-            <div className={`user-avatar role-${role}`}>{user?.nombre?.[0]}</div>
-            <div>
-              <p className="user-name">{user?.nombre}</p>
-              <p className="user-role">{role}</p>
-            </div>
-          </div>
-          <button className="btn-logout" onClick={logout}>Salir</button>
-        </div>
-      </aside>
+      <Sidebar />
 
       <main className="main-content">
         <header className="page-header">

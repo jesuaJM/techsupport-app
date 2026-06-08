@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTickets } from "../context/TicketsContext";
 import { ticketService } from "../services/ticketService";
+import Sidebar from "../components/Sidebar";
 
 // Estado inicial del formulario
 const formInicial = {
@@ -76,16 +77,7 @@ export default function NuevoTicketPage() {
 
   return (
     <div className="layout">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <span className="logo-icon-sm">⚙</span>
-          <span>TechSupport</span>
-        </div>
-        <nav className="sidebar-nav">
-          <Link to="/dashboard" className="nav-item">📋 Dashboard</Link>
-          <Link to="/tickets/nuevo" className="nav-item active">➕ Nuevo Ticket</Link>
-        </nav>
-      </aside>
+      <Sidebar />
 
       <main className="main-content">
         <header className="page-header">

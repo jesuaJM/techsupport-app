@@ -6,6 +6,8 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import NuevoTicketPage from "./pages/NuevoTicketPage";
 import DetalleTicketPage from "./pages/DetalleTicketPage";
+import GestionPage from "./pages/GestionPage";
+import AdminLogsPage from "./pages/AdminLogsPage";
 import "./App.css";
 
 export default function App() {
@@ -41,6 +43,26 @@ export default function App() {
               element={
                 <RutaProtegida>
                   <DetalleTicketPage />
+                </RutaProtegida>
+              }
+            />
+
+            {/* Gestión: solo técnicos y admins */}
+            <Route
+              path="/tickets"
+              element={
+                <RutaProtegida roles={["tecnico", "admin"]}>
+                  <GestionPage />
+                </RutaProtegida>
+              }
+            />
+
+            {/* Logs admin */}
+            <Route
+              path="/admin/logs"
+              element={
+                <RutaProtegida roles={["admin"]}>
+                  <AdminLogsPage />
                 </RutaProtegida>
               }
             />
